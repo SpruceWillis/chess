@@ -30,16 +30,21 @@ class Display
   def colors_for(i, j)
     if [i, j] == @cursor_pos
       bg = :light_red
+      mode = :blink
     elsif [i,j] == @selected_pos
       bg = :light_green
+      mode = :default
     elsif @moves.include?([i,j])
-      bg = :yellow
+      bg = :light_blue
+      mode = :default
     elsif (i + j).odd?
       bg = :black
+      mode = :default
     else
       bg = :light_black
+      mode = :default
     end
-    { background: bg, color: :white }
+    { background: bg, color: :white, mode: mode }
   end
 
   def render

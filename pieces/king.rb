@@ -8,7 +8,9 @@ class King < Piece
   include Steppable
 
   def directions
-    [-1,0,1].product([-1,0,1]).reject{|el| el == [0,0]}
+    dirs = [-1,0,1].product([-1,0,1]).reject{|el| el == [0,0]}
+    row = @pos[0]
+    dirs << [row, 2] << [row, 6] if [0,7].include?(row)
   end
 
   def initialize(color, board, pos)
@@ -35,13 +37,16 @@ class King < Piece
 
     else
       piece = @board[[@pos[0], 7]]
-      # byebug
       return false unless piece.is_a?(Rook) && !piece.has_moved
       return false unless @board[[row,5]].empty? && !move_into_check?([row,5])
       return false unless @board[[row,6]].empty? && !move_into_check?([row,6])
     end
-    # byebug
     true
+  end
+
+  def valid_move?(end_pos)
+    (moves.include?(end_pos) && !move_into_check?(end_pos)) ||
+      can_castle?(end_pos)
   end
 
 end

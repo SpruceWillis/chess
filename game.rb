@@ -42,7 +42,7 @@ class Game
         puts "#{current_player.name}, where do you want it?"
         end_pos = get_user_input
         resp = @board.move(start_pos, end_pos)
-        if resp
+        if resp == :promote
           piece_type = get_piece_type
           @board.piece_spawn(piece_type, end_pos, current_color)
         end

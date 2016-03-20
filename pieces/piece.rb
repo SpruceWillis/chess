@@ -22,8 +22,7 @@ class Piece
   end
 
   def valid_move?(end_pos)
-    (moves.include?(end_pos) && !move_into_check?(end_pos)) ||
-      (is_a?(King) && can_castle?(end_pos))
+    moves.include?(end_pos) && !move_into_check?(end_pos)
   end
 
   def valid_moves
@@ -32,7 +31,6 @@ class Piece
 
   def move_into_check?(move)
     test_board = @board.dup
-    # debugger
     test_board.move!(@pos, move)
     test_board.in_check?(@color)
   end

@@ -24,21 +24,26 @@ class Board
   def move(start_pos, end_pos)
 
     if self[start_pos].valid_move?(end_pos)
-      @prev_move = {start_pos: start_pos, end_pos: end_pos}
       self[end_pos] = self[start_pos]
       self[end_pos].pos = end_pos
       self[start_pos] = Empty_Square.instance
       set_moved(end_pos)
 
       handle_castling(start_pos, end_pos) if self[end_pos].is_a?(King)
+      # byebug
+      handle_en_passant(start_pos, end_pos) if en_passant?(end_pos)
+      @prev_move = {start_pos: start_pos, end_pos: end_pos}
+      return :promote if promotion?(end_pos)
 
-      if promotion?(end_pos)
-        return :promote
-      end
     else
       raise ArgumentError.new("Invalid Move. Try again!")
     end
     nil
+  end
+
+  def handle_en_passant(start_pos, end_pos)
+    # byebug
+    self[[start_pos[0], end_pos[1]]] = Empty_Square.instance
   end
 
   def handle_castling(start_pos, end_pos)

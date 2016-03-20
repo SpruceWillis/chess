@@ -11,6 +11,7 @@ class King < Piece
     dirs = [-1,0,1].product([-1,0,1]).reject{|el| el == [0,0]}
     row = @pos[0]
     dirs << [row, 2] << [row, 6] if [0,7].include?(row)
+    return dirs
   end
 
   def initialize(color, board, pos)

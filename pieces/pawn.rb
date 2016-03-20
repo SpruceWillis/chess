@@ -3,8 +3,6 @@ require_relative 'slidable'
 require 'Colorize'
 require 'byebug'
 
-
-
 class Pawn < Piece
 
   def initialize(color, board, pos)
@@ -36,7 +34,8 @@ class Pawn < Piece
         end
         moves << [x,y]
       else
-        moves << [x,y] if !@board[[x,y]].empty? && @board[[x,y]].capturable?(@color)
+        moves << [x,y] if @board[[x,y]].capturable?(@color) &&
+          (!@board[[x,y]].empty? || @board.en_passant?([x,y]))
       end
     end
     moves

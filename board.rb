@@ -10,6 +10,7 @@ class Board
     else
       @grid = grid
     end
+      @prev_move = {}
   end
 
   def empty?(x,y)
@@ -23,33 +24,42 @@ class Board
   def move(start_pos, end_pos)
 
     if self[start_pos].valid_move?(end_pos)
-
+      @prev_move = {start_pos: start_pos, end_pos: end_pos}
       self[end_pos] = self[start_pos]
       self[end_pos].pos = end_pos
       self[start_pos] = Empty_Square.instance
+      set_moved(end_pos)
 
-      if self[end_pos].is_a?(King) || self[end_pos].is_a?(Rook)
-        self[end_pos].has_moved = true
-      end
+      handle_castling(start_pos, end_pos) if self[end_pos].is_a?(King)
 
-      if self[end_pos].is_a?(King)
-        # byebug
-        row = start_pos[0]
-        dy = end_pos[1] - start_pos[1]
-        if dy == 2
-          move!([row, 7], [row, 5])
-        elsif dy == -2
-          move!([row, 0], [row, 3])
-        end
-      end
-
-      if self[end_pos].is_a?(Pawn) && [0,7].include?(end_pos[0])
+      if promotion?(end_pos)
         return :promote
       end
     else
       raise ArgumentError.new("Invalid Move. Try again!")
     end
     nil
+  end
+
+  def handle_castling(start_pos, end_pos)
+    return false unless self[end_pos].is_a?(King)
+    row = start_pos[0]
+    dy = end_pos[1] - start_pos[1]
+    case dy
+    when 2
+      move!([row, 7], [row, 5])
+    when -2
+      move!([row, 0], [row, 3])
+    end
+  end
+
+  def promotion?(end_pos)
+    self[end_pos].is_a?(Pawn) && [0,7].include?(end_pos[0])
+  end
+
+  def set_moved(end_pos)
+    self[end_pos].has_moved = true if self[end_pos].is_a?(King)||
+      self[end_pos].is_a?(Rook)
   end
 
   def piece_spawn(piece_type, pos, color)
@@ -174,6 +184,15 @@ class Board
   def rows
     @grid
   end
+
+  def en_passant?(pos)
+    return false unless @prev_move[:end_pos]
+    end_pos = @prev_move[:end_pos]
+    dx, dy = pos[0] - end_pos[0], pos[1] - end_pos[1]
+    prev_dx = end_pos[0] - @prev_move[:start_pos][0]
+    self[end_pos].is_a?(Pawn) && [1,-1].include?(dx) && dy == 0 && [2,-2].include?(prev_dx)
+  end
+
 end
 
 if __FILE__ == $PROGRAM_NAME

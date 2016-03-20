@@ -41,6 +41,7 @@ module Cursorable
     when :ctrl_c
       exit 0
     when :return, :space
+      @selected_pos ? @selected_pos = nil : @selected_pos = @cursor_pos
       @cursor_pos
     when :left, :right, :up, :down
       update_pos(MOVES[key])

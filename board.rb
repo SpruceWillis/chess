@@ -30,7 +30,6 @@ class Board
       set_moved(end_pos)
 
       handle_castling(start_pos, end_pos) if self[end_pos].is_a?(King)
-      # byebug
       handle_en_passant(start_pos, end_pos) if en_passant?(end_pos)
       @prev_move = {start_pos: start_pos, end_pos: end_pos}
       return :promote if promotion?(end_pos)
@@ -77,6 +76,8 @@ class Board
         self[pos] = Bishop.new(color, self, pos)
       when 'N'
         self[pos] = Knight.new(color, self, pos)
+      when 'P'
+        self[pos] = Pawn.new(color, self, pos)
       end
   end
 
@@ -167,8 +168,7 @@ class Board
 
   def in_checkmate?(color)
     return false unless in_check?(color)
-    friend_pieces = pieces.select{|piece| piece.color == color}
-    friend_pieces.all?{|piece| piece.valid_moves.empty?}
+
   end
 
   def dup
@@ -196,6 +196,14 @@ class Board
     dx, dy = pos[0] - end_pos[0], pos[1] - end_pos[1]
     prev_dx = end_pos[0] - @prev_move[:start_pos][0]
     self[end_pos].is_a?(Pawn) && [1,-1].include?(dx) && dy == 0 && [2,-2].include?(prev_dx)
+  end
+
+  def over?(color)
+    friend_pieces = pieces.select{|piece| piece.color == color}
+    if friend_pieces.all?{|piece| piece.valid_moves.empty?}
+     in_check?(color) ? (return :checkmate) : (return :stalemate)
+    end
+    false
   end
 
 end

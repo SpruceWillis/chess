@@ -2,7 +2,7 @@ require "Colorize"
 require_relative "cursorable"
 ##Thanks to rglassett on github for this code!
 class Display
-  attr_accessor :message
+  attr_accessor :message, :moves
   include Cursorable
 
 
@@ -10,6 +10,8 @@ class Display
     @board = board
     @cursor_pos = [0, 0]
     @message = nil
+    @selected_pos = nil
+    @moves = []
   end
 
   def build_grid
@@ -28,6 +30,10 @@ class Display
   def colors_for(i, j)
     if [i, j] == @cursor_pos
       bg = :light_red
+    elsif [i,j] == @selected_pos
+      bg = :light_green
+    elsif @moves.include?([i,j])
+      bg = :yellow
     elsif (i + j).odd?
       bg = :black
     else

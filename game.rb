@@ -19,47 +19,75 @@ class Game
     current_player.color
   end
 
-  def reset_message
-    @display.message = nil
+  def check_check
+    message = ""
+    if @board.in_check?(current_color)
+      message = "Check!\n"
+    else
+      message = ""
+    end
+
+    message += "#{color_string} to move"
+    @display.message = message
   end
 
-  def check_check
-    if @board.in_check?(current_color)
-      @display.message = "Check!"
-    else
-      reset_message
+  def color_string
+    color_string = current_color.to_s
+    color_string[0] = color_string[0].upcase
+    color_string
+  end
+
+  def take_turn
+    begin
+      start_pos = get_user_input
+      raise ArgumentError if @board.color(start_pos) != current_color
+      @display.moves = @board[start_pos].valid_moves
+      @display.render
+      end_pos = get_user_input
+      resp = @board.move(start_pos, end_pos)
+      if resp == :promote
+        piece_type = get_piece_type
+        @board.piece_spawn(piece_type, end_pos, current_color)
+      end
+      @display.moves = []
+    rescue ArgumentError
+      @display.moves = []
+      @display.render
+      puts "Invalid move"
+      retry
     end
   end
 
   def play
-    until @board.in_checkmate?(current_color)
+    game_over = @board.over?(current_color)
+    until game_over
       check_check
       @display.render
-      begin
-        puts "#{current_player.name}, select your piece"
-        start_pos = get_user_input
-        raise ArgumentError if @board.color(start_pos) != current_color
-        puts "#{current_player.name}, where do you want it?"
-        end_pos = get_user_input
-        resp = @board.move(start_pos, end_pos)
-        if resp == :promote
-          piece_type = get_piece_type
-          @board.piece_spawn(piece_type, end_pos, current_color)
-        end
-      rescue ArgumentError
-        retry
-      end
+      take_turn
       player_swap!
+      game_over = @board.over?(current_color)
     end
-    player_swap!
-    puts "Congratulations #{current_player.name}, you won!"
+    @display.render
+    end_game(game_over)
+
+  end
+
+  def end_game(status)
+    case status
+    when :stalemate
+      puts "Stalemate - draw"
+    when :checkmate
+      player_swap!
+      puts "Checkmate: #{color_string} wins"
+    else
+      raise "Error - unexpected game over"
+    end
   end
 
   def get_piece_type
     type = nil
     pieces = ['Q','R','B','N']
     until pieces.include?(type)
-      # byebug
       puts "What type of piece do you want? (Q,R,B,N)"
       type = gets.chomp.upcase
     end

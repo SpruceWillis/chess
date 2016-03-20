@@ -31,10 +31,8 @@ class Pawn < Piece
       next unless is_valid_pos?(x,y)
       if dy == 0
         next unless @board[[x,y]].empty?
-        if dx == 2
-          next unless @board[[pos[0] + 1, pos[1]]].empty?
-        elsif dx == -2
-          next unless @board[[pos[0] -1, pos[1]]].empty?
+        if dx == 2 || dx == -2
+          next unless @board[[x - dx/2, y]].empty?
         end
         moves << [x,y]
       else

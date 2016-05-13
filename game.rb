@@ -1,6 +1,6 @@
-require_relative 'board'
-require_relative 'human_player'
-require_relative 'Display'
+require_relative 'lib/board'
+require_relative 'lib/human_player'
+require_relative 'lib/Display'
 class Game
 
   def initialize(board = Board.new, players = [HumanPlayer.new("Jim", :white),

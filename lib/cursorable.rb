@@ -1,4 +1,5 @@
 require "io/console"
+require_relative 'board'
 #domo arigato rglassett on github! Wow such code much display
 module Cursorable
   KEYMAP = {
@@ -41,8 +42,13 @@ module Cursorable
     when :ctrl_c
       exit 0
     when :return, :space
-      @selected_pos ? @selected_pos = nil : @selected_pos = @cursor_pos
-      @cursor_pos
+      if @selected_pos
+        @selected_pos = nil
+        @cursor_pos
+      elsif !@board.empty?(*@cursor_pos)
+        @selected_pos = @cursor_pos
+        @cursor_pos
+     end
     when :left, :right, :up, :down
       update_pos(MOVES[key])
       nil

@@ -154,7 +154,7 @@ class Board
         return [i,j] if @grid[i][j].is_a?(King) && @grid[i][j].color == color
       end
     end
-    raise RuntimeError.new("WTF where's the king bro?")
+    raise RuntimeError.new("No King No King lalalala")
   end
 
   def in_check?(color)

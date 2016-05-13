@@ -9,8 +9,8 @@ class King < Piece
 
   def directions
     dirs = [-1,0,1].product([-1,0,1]).reject{|el| el == [0,0]}
-    row = @pos[0]
-    dirs << [0, 2] << [0, -2] if [0,7].include?(row)
+    # row = @pos[0]
+    # dirs << [0, 2] << [0, -2] if [0,7].include?(row)
     return dirs
   end
 
@@ -25,7 +25,7 @@ class King < Piece
 
   def can_castle?(end_pos)
     return false if @board.in_check?(@color) || @has_moved
-    # byebug
+    byebug
     row = @pos[0]
     return false unless [2,-2].include?(end_pos[1] - @pos[1])
     if end_pos[1] < @pos[1]
@@ -46,6 +46,7 @@ class King < Piece
   end
 
   def valid_move?(end_pos)
+    byebug
     (moves.include?(end_pos) && !move_into_check?(end_pos)) ||
       can_castle?(end_pos)
   end

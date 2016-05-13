@@ -18,14 +18,9 @@ After installing Ruby:
 3. Navigate to the folder in terminal
 4. Run `$ bundle install` in the terminal.
 5. Run `$ ruby game.rb` in the terminal.
-6. Use the arrow keys, WASD, or vim to move the cursor.
-
+6. Use the arrow keys, WASD, or vim to move the cursor.  
 ![screenshot1](https://github.com/SpruceWillis/chess/blob/master/screenshots/chess1.png)
-
-7. Use enter or spacebar to select a piece. The available moves will be shown.
-
+7. Use enter or spacebar to select a piece. The available moves will be shown.  
 ![screenshot2](https://github.com/SpruceWillis/chess/blob/master/screenshots/chess2.png)
-
-8. Move to the destination square and select it to move.
-
+8. Move to the destination square and select it to move.  
 ![screenshot3](https://github.com/SpruceWillis/chess/blob/master/screenshots/chess3.png)

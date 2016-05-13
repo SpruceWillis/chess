@@ -206,7 +206,22 @@ class Board
     false
   end
 
+  def check_castling(piece)
+    if piece.is_a?(King) && !piece.has_moved
+      positions = [
+        [0,6],
+        [0,2],
+        [7,6],
+        [7,2] ]
+      positions.select{|el| piece.can_castle?(el)}
+    else
+      []
+    end
+  end
+
 end
+
+
 
 if __FILE__ == $PROGRAM_NAME
   # b = Board.new

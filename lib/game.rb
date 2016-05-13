@@ -41,7 +41,11 @@ class Game
     begin
       start_pos = get_user_input
       raise ArgumentError if @board.color(start_pos) != current_color
-      @display.moves = @board[start_pos].valid_moves
+      piece = @board[start_pos]
+      moves = piece.valid_moves
+      # get king castling moves if valid
+      moves.concat(@board.check_castling(piece))
+      @display.moves = moves
       @display.render
       end_pos = get_user_input
       resp = @board.move(start_pos, end_pos)

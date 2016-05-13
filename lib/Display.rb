@@ -16,8 +16,8 @@ class Display
 
   def build_grid
     @board.rows.map.with_index do |row, i|
-      build_row(row, i)
-    end
+      [" #{8 - i} "].concat(build_row(row, i))
+    end << (['   '] + [*('a'..'h')].map{|el| " #{el} "})
   end
 
   def build_row(row, i)
@@ -51,6 +51,7 @@ class Display
     system("clear")
     puts @message if @message
     puts "Arrow keys, WASD, or vim to move, space or enter to confirm."
+    # byebug
     build_grid.each { |row| puts row.join }
   end
 end

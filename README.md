@@ -24,8 +24,8 @@ After installing Ruby:
 
 7. Use enter or spacebar to select a piece. The available moves will be shown.
 
-![screenshot2](https://github.com/SpruceWillis/Collabase/blob/master/screenshots/chess2.png)
+![screenshot2](https://github.com/SpruceWillis/chess/blob/master/screenshots/chess2.png)
 
 8. Move to the destination square and select it to move.
 
-![screenshot3](https://github.com/SpruceWillis/Collabase/blob/master/screenshots/chess3.png)
+![screenshot3](https://github.com/SpruceWillis/chess/blob/master/screenshots/chess3.png)

@@ -20,12 +20,12 @@ After installing Ruby:
 5. Run `$ ruby game.rb` in the terminal.
 6. Use the arrow keys, WASD, or vim to move the cursor.
 
-![screenshot1](https://github.com/SpruceWillis/chess/blob/master/docs/screenshots/chess1.png)
+![screenshot1](https://github.com/SpruceWillis/chess/blob/master/screenshots/chess1.png)
 
 7. Use enter or spacebar to select a piece. The available moves will be shown.
 
-![screenshot2](https://github.com/SpruceWillis/Collabase/blob/master/docs/screenshots/chess2.png)
+![screenshot2](https://github.com/SpruceWillis/Collabase/blob/master/screenshots/chess2.png)
 
 8. Move to the destination square and select it to move.
 
-![screenshot3](https://github.com/SpruceWillis/Collabase/blob/master/docs/screenshots/chess3.png)
+![screenshot3](https://github.com/SpruceWillis/Collabase/blob/master/screenshots/chess3.png)
